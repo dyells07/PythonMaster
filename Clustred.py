@@ -3,6 +3,8 @@ from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
 import turtle
 
+np.random.seed(42)
+
 users = [
     {"id": i, "gender": np.random.choice(["M", "F"]), "age": np.random.randint(18, 65),
      "occupation": np.random.choice(["Engineer", "Artist", "Doctor", "Teacher", "Student", "Lawyer", "Nurse",
@@ -18,7 +20,6 @@ ratings = [{"user_id": user["id"], "movie_id": np.random.randint(1, 21), "rating
 
 
 
-# Define validation functions for user inputs
 def get_valid_gender_input(prompt, x, y):
     while True:
         input_box = turtle.Screen().textinput(prompt, "")
@@ -119,7 +120,7 @@ def display_movies(recommended_movies):
         display_text(movie, -200, y_pos)
         y_pos -= 50
 
-def recommend_movies(nearest_cluster, user_labels, user_movie_ratings, movie_data, num_recommendations=2):
+def recommend_movies(nearest_cluster, user_labels, user_movie_ratings, movie_data, num_recommendations=4):
     cluster_users = np.where(user_labels == nearest_cluster)[0]
     cluster_user_ratings = user_movie_ratings[cluster_users]
     average_ratings = cluster_user_ratings.mean(axis=0)

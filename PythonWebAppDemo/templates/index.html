@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommendation</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Movie Recommendation</h1>
+    <form action="/recommend" method="post">
+        <label for="age">Age:</label>
+        <input type="text" name="age" id="age" required><br>
+
+        <label for="gender">Gender (0 for male, 1 for female):</label>
+        <input type="text" name="gender" id="gender" required><br>
+
+        <label for="occupation">Occupation (0, 1, 2, etc.):</label>
+        <input type="text" name="occupation" id="occupation" required><br>
+
+        <label for="zipcode">Zipcode:</label>
+        <input type="text" name="zipcode" id="zipcode" required><br>
+
+        <input type="submit" value="Recommend Movies">
+    </form>
+
+    <h2>Recommended Movies:</h2>
+    <ul>
+       
+    </ul>
+</body>
+</html>
