@@ -4,7 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import SpectralClustering
 
 users_df = pd.read_excel('users.xlsx', sheet_name='Sheet1')
-movies_df = pd.read_excel('movies.xlsx', sheet_name='Sheet1')
+movies_df = pd.read_excel('movies.xlsx', sheet_name='Sheet2')
 ratings_df = pd.read_excel('ratings.xlsx', sheet_name='Sheet1')
 
 user_features = users_df[['age', 'gender', 'occupation', 'zipcode']].values
