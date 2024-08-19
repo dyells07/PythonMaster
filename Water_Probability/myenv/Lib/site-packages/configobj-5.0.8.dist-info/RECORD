@@ -1,0 +1,14 @@
+configobj-5.0.8.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+configobj-5.0.8.dist-info/LICENSE,sha256=DZXmSEaacR9eweWebUSSFQ7GXZaMHqbG2WFUqSh5mXo,1736
+configobj-5.0.8.dist-info/METADATA,sha256=Kxg71BROgpuN_-5PoBad_zxzngF4cLa9anvqFN5lk-w,3353
+configobj-5.0.8.dist-info/RECORD,,
+configobj-5.0.8.dist-info/WHEEL,sha256=kGT74LWyRUZrL4VgLh6_g12IeVl_9u9ZVhadrgXZUEY,110
+configobj-5.0.8.dist-info/top_level.txt,sha256=JiaOycSP0BWbFlMKSUNlKuJKYodLJ_WCroaM1gcYjJs,19
+configobj/__init__.py,sha256=qSTPPyEux5nqCt6NDgs-1_mJhnfwKYFHBiTgdzRpyXU,89638
+configobj/__pycache__/__init__.cpython-312.pyc,,
+configobj/__pycache__/_version.cpython-312.pyc,,
+configobj/__pycache__/validate.cpython-312.pyc,,
+configobj/_version.py,sha256=09G9VFaz1clAk9W4CwD7jaXBusQQgwfuHkZn5i8Ccbw,21
+configobj/validate.py,sha256=8tH5Nd9MLH82fmNeXByw1WivNNFyQ4lvWQRnE5W_zxc,47216
+validate/__init__.py,sha256=e_rUKrecYlW6QJ4A_1ZjIqE6LqDNmIfwUd8OBitTmrA,286
+validate/__pycache__/__init__.cpython-312.pyc,,

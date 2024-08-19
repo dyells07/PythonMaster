@@ -1,0 +1,171 @@
+Metadata-Version: 2.1
+Name: dvc-render
+Version: 1.0.2
+Summary: Dvc Render
+Author-email: Iterative <support@dvc.org>
+License: Apache-2.0
+Project-URL: Issues, https://github.com/iterative/dvc-render/issues
+Project-URL: Source, https://github.com/iterative/dvc-render
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Development Status :: 4 - Beta
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: dvc-render[docs,tests] ; extra == 'dev'
+Requires-Dist: mypy ==1.9.0 ; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: mkdocs <2,>=1.5.2 ; extra == 'docs'
+Requires-Dist: mkdocs-gen-files <1,>=0.5.0 ; extra == 'docs'
+Requires-Dist: mkdocs-material <10,>=9.3.1 ; extra == 'docs'
+Requires-Dist: mkdocs-section-index <1,>=0.3.6 ; extra == 'docs'
+Requires-Dist: mkdocstrings-python <2,>=1.6.3 ; extra == 'docs'
+Provides-Extra: markdown
+Requires-Dist: dvc-render[table] ; extra == 'markdown'
+Requires-Dist: matplotlib ; extra == 'markdown'
+Provides-Extra: table
+Requires-Dist: tabulate >=0.8.7 ; extra == 'table'
+Requires-Dist: flatten-dict <1,>=0.4.1 ; extra == 'table'
+Provides-Extra: tests
+Requires-Dist: dvc-render[markdown,table] ; extra == 'tests'
+Requires-Dist: pytest <9,>=7 ; extra == 'tests'
+Requires-Dist: pytest-cov >=4.1.0 ; extra == 'tests'
+Requires-Dist: pytest-sugar ; extra == 'tests'
+Requires-Dist: pytest-mock ; extra == 'tests'
+
+dvc-render
+==========
+
+|PyPI| |Status| |Python Version| |License|
+
+|Tests| |Codecov| |pre-commit| |Black|
+
+.. |PyPI| image:: https://img.shields.io/pypi/v/dvc-render.svg
+   :target: https://pypi.org/project/dvc-render/
+   :alt: PyPI
+.. |Status| image:: https://img.shields.io/pypi/status/dvc-render.svg
+   :target: https://pypi.org/project/dvc-render/
+   :alt: Status
+.. |Python Version| image:: https://img.shields.io/pypi/pyversions/dvc-render
+   :target: https://pypi.org/project/dvc-render
+   :alt: Python Version
+.. |License| image:: https://img.shields.io/pypi/l/dvc-render
+   :target: https://opensource.org/licenses/Apache-2.0
+   :alt: License
+.. |Tests| image:: https://github.com/iterative/dvc-render/workflows/Tests/badge.svg
+   :target: https://github.com/iterative/dvc-render/actions?workflow=Tests
+   :alt: Tests
+.. |Codecov| image:: https://codecov.io/gh/iterative/dvc-render/branch/main/graph/badge.svg
+   :target: https://app.codecov.io/gh/iterative/dvc-render
+   :alt: Codecov
+.. |pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+   :alt: pre-commit
+.. |Black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+   :target: https://github.com/psf/black
+   :alt: Black
+
+dvc-render is a library for **rendering** data stored in `DVC plots format`_ into different output formats, like Vega_. It can also generate HTML and MarkDown **reports** containing multiple plots.
+
+It is used internally by DVC_, DVCLive_, and Studio_.
+
+
+Features
+--------
+
+* Renderers
+
+Take data stored in `DVC plots format`_ alongside plot properties in order to render a plot in different formats.
+
+* Reports
+
+Take multiple renderers and build an HTML or MarkDown report.
+
+* Templates
+
+Support for rendering Vega_ plots using custom of pre-defined templates.
+
+
+Requirements
+------------
+
+The basic usage of rendering Vega Plots doesn't have any dependencies outside
+`Python>=3.8`.
+
+Additional features are specified as optional requirements:
+
+https://github.com/iterative/dvc-render/blob/49b8f8a81c4e06b8f675197b8dd57e2a773cf283/setup.cfg#L27-L32
+
+
+Installation
+------------
+
+You can install *DVC render* via pip_ from PyPI_:
+
+.. code:: console
+
+   $ pip install dvc-render
+
+
+Usage
+-----
+
+* Renderer & Templates
+
+.. code-block:: python
+
+      from dvc_render import VegaRenderer
+      properties = {"template": "confusion", "x": "predicted", "y": "actual"}
+       datapoints = [
+           {"predicted": "B", "actual": "A"},
+           {"predicted": "A", "actual": "A"},
+       ]
+
+      renderer = VegaRenderer(datapoints, "foo", **properties)
+      plot_content = renderer.get_filled_template()
+
+`plot_content` contains a valid Vega_ plot using the confusion matrix template.
+
+* Report
+
+.. code-block:: python
+
+      from dvc_render import render_html
+      render_html([renderer], "report.html")
+
+Contributing
+------------
+
+Contributions are very welcome.
+To learn more, see the `Contributor Guide`_.
+
+
+License
+-------
+
+Distributed under the terms of the `Apache 2.0 license`_,
+*DVC render* is free and open source software.
+
+
+Issues
+------
+
+If you encounter any problems,
+please `file an issue`_ along with a detailed description.
+
+
+.. _Apache 2.0 license: https://opensource.org/licenses/Apache-2.0
+.. _PyPI: https://pypi.org/
+.. _file an issue: https://github.com/iterative/dvc-render/issues
+.. _pip: https://pip.pypa.io/
+.. github-only
+.. _Contributor Guide: CONTRIBUTING.rst
+.. _DVC: https://github.com/iterative/dvc
+.. _DVCLive: https://github.com/iterative/dvclive
+.. _Studio: https://github.com/iterative/studio
+.. _Vega: https://vega.github.io/
+.. _`DVC plots format`: https://dvc.org/doc/user-guide/experiment-management/visualizing-plots#supported-plot-file-formats

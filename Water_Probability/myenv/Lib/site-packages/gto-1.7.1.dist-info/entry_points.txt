@@ -1,0 +1,5 @@
+[console_scripts]
+gto = gto.cli:app
+
+[gto.enrichment]
+gto = gto.index:GTOEnrichment

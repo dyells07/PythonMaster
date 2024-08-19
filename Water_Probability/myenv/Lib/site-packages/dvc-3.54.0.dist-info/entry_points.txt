@@ -1,0 +1,15 @@
+[console_scripts]
+dvc = dvc.cli:main
+
+[fsspec.specs]
+dvc = dvc.api:DVCFileSystem
+
+[pyinstaller40]
+hook-dirs = dvc.__pyinstaller:get_hook_dirs
+tests = dvc.__pyinstaller:get_PyInstaller_tests
+
+[universal_pathlib.implementations]
+dvc = dvc.fs.dvc_path:DVCPath
+dvc+http = dvc.fs.dvc_path:DVCPath
+dvc+https = dvc.fs.dvc_path:DVCPath
+dvc+ssh = dvc.fs.dvc_path:DVCPath

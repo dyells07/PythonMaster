@@ -1,0 +1,3 @@
+[pyinstaller40]
+hook-dirs = sqltrie.__pyinstaller:get_hook_dirs
+tests = sqltrie.__pyinstaller:get_PyInstaller_tests
