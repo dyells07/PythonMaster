@@ -1,5 +1,3 @@
-#Author: OMKAR PATHAK
-#This program illustrates a stopwatch
 
 import time
 

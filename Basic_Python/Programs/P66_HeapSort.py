@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 #  Approach:
 #  Heap sort happens in two phases. In the first phase, the array
 #  is transformed into a heap. A heap is a binary tree where

@@ -1,5 +1,3 @@
-#  Author: OMKAR PATHAK
-
 #  Approach:
 #  Counting sort, like radix sort and bucket sort,
 #  is an integer based algorithm (i.e. the values of the input

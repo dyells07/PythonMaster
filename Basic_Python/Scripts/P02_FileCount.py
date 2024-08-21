@@ -1,10 +1,9 @@
-# Author: OMKAR PATHAK
 # This script illustrates how to count number of files and directories in a diectory recursively
 
 import os
 
 # Path IN which we have to count files and directories
-PATH = '/home/omkarpathak/Documents/GITs/Python-Programs/Scripts'   # Give your path here
+PATH = '/home/BIPINKHANAL/Documents/GITs/Python-Programs/Scripts'   # Give your path here
 
 fileCount = 0
 dirCount = 0

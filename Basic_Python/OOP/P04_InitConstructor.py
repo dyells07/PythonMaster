@@ -1,5 +1,3 @@
-#Author: OMKAR PATHAK
-#This example shows the use of __init__ constructor
 
 class Vehicle():
     #__init__ is used to set values as soon as new object are created

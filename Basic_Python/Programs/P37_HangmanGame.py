@@ -1,6 +1,3 @@
-# Author: Omkar Pathak
-# This is just an example of how we can use Python for some gaming problems.
-
 import random
 from collections import Counter
 

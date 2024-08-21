@@ -1,5 +1,4 @@
-#Author: OMKAR PATHAK
-#This program prints various patterns
+
 
 def pattern1(level):
     '''This function prints the following pattern:

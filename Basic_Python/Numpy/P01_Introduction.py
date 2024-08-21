@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 # NumPy (Numeric Python) is a Python package used for building multi dimensional arrays and performing
 # various operations

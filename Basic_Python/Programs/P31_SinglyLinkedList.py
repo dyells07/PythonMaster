@@ -1,6 +1,3 @@
-#This program illustrates an example of singly linked list
-#Linked lists do NOT support random access hence only sequential search can be carried out
-
 class Node(object):
     def __init__(self, data, Next = None):
         self.data = data

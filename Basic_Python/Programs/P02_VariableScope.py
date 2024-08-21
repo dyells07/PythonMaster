@@ -1,5 +1,3 @@
-#Author: OMKAR PATHAK
-#This programs shows the rules for variable scope
 
 # LEGB Rule: Local, Enclosing, Global, Built-in
 

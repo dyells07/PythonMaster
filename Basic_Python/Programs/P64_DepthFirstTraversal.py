@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # Depth first search is performed in three ways:
 # Inorder
 # Preorder

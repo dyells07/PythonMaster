@@ -1,6 +1,3 @@
-# Author: OMKAR PATHAK
-# This script helps us to enter a word and get precise meaning for that word from vocabulary.com
-
 import urllib.request
 from bs4 import BeautifulSoup
 

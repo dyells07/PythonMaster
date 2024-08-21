@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # ANAGRAM: An anagram is direct word switch or word play, the result of rearranging the letters
 # of a word or phrase to produce a new word or phrase, using all the original letters exactly once
 

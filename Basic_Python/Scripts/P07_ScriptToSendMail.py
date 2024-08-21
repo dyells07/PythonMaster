@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 import smtplib
 
 fadd = ''                                       # sender's email address

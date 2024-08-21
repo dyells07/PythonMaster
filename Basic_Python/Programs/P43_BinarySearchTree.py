@@ -1,6 +1,3 @@
-# Author: OMKAR PATHAK
-# This program illustrates an example of Binary Search Tree using Python
-
 class Node(object):
     def __init__(self, data):
         self.data = data

@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # This program illustrates a simple Python encryption example using the RSA Algotrithm
 
 # RSA is an algorithm used by modern computers to encrypt and decrypt messages. It is an asymmetric
@@ -19,7 +17,7 @@ print(key.publickey())                    # Prints public key
 
 # Encryption using Public Key
 publicKey = key.publickey()
-encryptedData = publicKey.encrypt('My name is Omkar Pathak'.encode('utf-8'), 32)
+encryptedData = publicKey.encrypt('My name is BIPIN KHANAL'.encode('utf-8'), 32)
 print(encryptedData)
 
 # Decryption using Private Key

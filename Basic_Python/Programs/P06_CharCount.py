@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This program checks for the character frequency in the given string
-
 def charFrequency(userInput):
     '''This fuction helps to count the char frequency in the given string '''
     userInput = userInput.lower() #covert to lowercase

@@ -23,7 +23,7 @@ def renameFiles(BASE_DIR):
         os.rename(i, i.replace('Folder', '-Folder'))
 
 if __name__ == '__main__':
-    BASE_DIR = '/home/omkarpathak/Downloads/PythonPrograms/Scripts/Tests/'
+    BASE_DIR = '/home/BIPINKHANAL/Downloads/PythonPrograms/Scripts/Tests/'
     #createFolders(BASE_DIR)
     createFiles(BASE_DIR)
     time.sleep(10)

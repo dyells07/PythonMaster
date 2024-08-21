@@ -1,4 +1,4 @@
-#Author: OMKAR PATHAK
+#Author: BIPIN KHANAL
 #In this example w will see the example for Python argument parser
 
 import argparse
@@ -14,7 +14,7 @@ def argumentParser():
 
 
 def slowBros():
-    print('SLOWBROS MEMBERS: \nOmkar Pathak\nChinmaya Kaundanya\nAkash Nalawade\nSanket Parode')
+    print('SLOWBROS MEMBERS: \nBipin Khanal\nHimal Giri\nAnkit Poudel\nS S')
 
 
 if __name__ == '__main__':

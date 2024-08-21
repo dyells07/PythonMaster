@@ -1,7 +1,3 @@
-#Author: OMKAR PATHAK
-#This program guesses the randomnly generated number
-
-
 import random
 
 def guess():

@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 # For transfering files to your another/local computer, you will have to install a FTP
 # Daemon. Execute following for doing the same:
@@ -36,11 +36,11 @@ def ftp_upload(ftpObj, pathToSend, pathToRecv, fileType='TXT'):
 
 if __name__ == '__main__':
     ftp = ftplib.FTP('127.0.0.1')
-    ftp.login('omkarpathak', '8149omkar')
+    ftp.login('BIPINKHANAL', '8149BIPIN')
     print('Logged in..')
 
-    pathToSend = '/home/omkarpathak/Desktop/output.txt'
-    pathToRecv = '/home/omkarpathak/Documents/output.txt'
+    pathToSend = '/home/BIPINKHANAL/Desktop/output.txt'
+    pathToRecv = '/home/BIPINKHANAL/Documents/output.txt'
     ftp_upload(ftp, pathToSend, pathToRecv)
 
     ftp.quit()

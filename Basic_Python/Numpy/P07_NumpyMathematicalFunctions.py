@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 import numpy as np
 

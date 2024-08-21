@@ -1,6 +1,3 @@
-# Author: OMKAR PATHAK
-# In this example we will see how to write list comprehensions to make our tasks easier
-
 # Python.org says:
 # List comprehensions provide a concise way to create lists.
 # Common applications are to make new lists where each element is

@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This program shows an example of selection sort
-
 #Selection sort iterates all the elements and if the smallest element in the list is found then that number
 #is swapped with the first
 

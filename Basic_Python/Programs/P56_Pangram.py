@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # PANGRAM: A sentence containing every letter of the alphabet.
 
 from collections import Counter

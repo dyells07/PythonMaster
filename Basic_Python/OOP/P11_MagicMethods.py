@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 # In this example we will see what are Python Magic Methods (or Special Methods) and how to overload them
 # Now why these methods are called Magic or Special methods anyway? The reason is that these
 # methods are invoked directly after creation of a class instance. For example:
@@ -30,12 +30,12 @@ class Employee(object):
         return self.salary * other.salary
 
 if __name__ == '__main__':
-    Omkar = Employee('Omkar', 'Pathak', 1000)
-    Jagdish = Employee('Jagdish','Pathak', 2000)
-    print(Omkar)                # Full Name: Omkar Pathak (This output because of __str__ method overloading)
-    print(Jagdish)              # Full Name: Jagdish Pathak
-    print(Omkar + Jagdish)      # 3000 (This output because of __add__ method overloading)
-    print(Omkar * Jagdish)      # 2000000 (__mul__)
-    print(int(Omkar))           # 1000 (__int__)
+    BIPIN = Employee('BIPIN', 'KHANAL', 1000)
+    Jagdish = Employee('Jagdish','KHANAL', 2000)
+    print(BIPIN)                # Full Name: BIPIN KHANAL (This output because of __str__ method overloading)
+    print(Jagdish)              # Full Name: Jagdish KHANAL
+    print(BIPIN + Jagdish)      # 3000 (This output because of __add__ method overloading)
+    print(BIPIN * Jagdish)      # 2000000 (__mul__)
+    print(int(BIPIN))           # 1000 (__int__)
     print(int(Jagdish))         # 2000 (__int__)
-    print(Omkar==Jagdish)
+    print(BIPIN==Jagdish)

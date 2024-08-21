@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This program illustrates an example of quick sort
-
 #  Quicksort works by selecting an element called a pivot and splitting
 #  the array around that pivot such that all the elements in, say, the
 #  left sub-array are less than pivot and all the elements in the right

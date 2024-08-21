@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # PASCAL TRAINGLE: To build the triangle, start with "1" at the top, then continue placing numbers
 # below it in a triangular pattern. Each number is the numbers directly above it added together.
 

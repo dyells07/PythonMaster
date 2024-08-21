@@ -1,5 +1,3 @@
-# Auhtor: OMKAR PATHAK
-
 # Sieve of Eratosthenes is one of the efficient algorithms to find all the prime numbers upto n, where n can be
 # upto 10 million. This algorithm is very efficient and fast and hence is preferred by many competitive programmers.
 

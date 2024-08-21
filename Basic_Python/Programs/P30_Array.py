@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This example illustrates how an array can be implemened using Python
-
 class Array(object):
     def __init__(self, size, defaultValue = None):
         '''

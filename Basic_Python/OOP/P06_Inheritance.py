@@ -1,4 +1,3 @@
-#Author: OMKAR PATHAK
 #This program illustrates the concept of inheritance
 #Python looks up for method in following order: Instance attributes, class attributes and the
 #from the base class

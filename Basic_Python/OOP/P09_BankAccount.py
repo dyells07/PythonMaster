@@ -1,4 +1,3 @@
-# Author: OMKAR PATHAK
 # This program illustrates all the OOP concepts learned uptil now
 
 class BankAccount(object):
@@ -23,7 +22,7 @@ class BankAccount(object):
         return self.balance
 
 if __name__ == '__main__':
-    myObj = BankAccount('Omkar', 1000)
+    myObj = BankAccount('BIPIN', 1000)
     myObj.deposit(1000)
     print(myObj.getBalance())
     myObj.withdraw(500)

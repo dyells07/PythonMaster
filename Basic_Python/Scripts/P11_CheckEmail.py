@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # This script helps to read the latest emails and entieve the contents of the selected email
 # First turn on this: https://myaccount.google.com/lesssecureapps?pli=1
 
@@ -10,7 +8,7 @@ pwd = getpass.getpass("Enter your Gmail Password: ")
 # connecting to the gmail imap server
 
 mail = imaplib.IMAP4_SSL("imap.gmail.com")
-mail.login('omkarpathak.comp@mmcoe.edu.in', pwd)
+mail.login('BIPINKHANAL.comp@mmcoe.edu.in', pwd)
 mail.list()
 mail.select('INBOX') # Specify from where to retrieve the email
 

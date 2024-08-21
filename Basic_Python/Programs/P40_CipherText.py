@@ -1,6 +1,3 @@
-# Author: OMKAR PATHAK
-# This program illustrates a simple example for encrypting/ decrypting your text
-
 LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 LETTERS = LETTERS.lower()
 
@@ -46,14 +43,14 @@ if __name__ == '__main__':
     main()
 
     # OUTPUT:
-    # omkarpathak@omkarpathak-Inspiron-3542:~/Documents/GITs/Python-Programs/Programs$ python P40_CipherText.py
-    # Enter your message: omkar
+    # BIPINKHANAL@BIPINKHANAL-Inspiron-3542:~/Documents/GITs/Python-Programs/Programs$ python P40_CipherText.py
+    # Enter your message: BIPIN
     # Enter you key [1 - 26]: 2
     # Encrypt or Decrypt? [E/D]: e
     # qomct
     #
-    # omkarpathak@omkarpathak-Inspiron-3542:~/Documents/GITs/Python-Programs/Programs$ python P40_CipherText.py
+    # BIPINKHANAL@BIPINKHANAL-Inspiron-3542:~/Documents/GITs/Python-Programs/Programs$ python P40_CipherText.py
     # Enter your message: qomct
     # Enter you key [1 - 26]: 2
     # Encrypt or Decrypt? [E/D]: d
-    # omkar
+    # BIPIN

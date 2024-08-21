@@ -1,4 +1,3 @@
-# Author: OMKAR PATHAK
 
 # Wikipedia:
 # A closure is a record storing a function[a] together with an environment:

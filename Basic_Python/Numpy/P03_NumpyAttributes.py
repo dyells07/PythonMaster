@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 # These are the various attributes provided by NumPy.
 

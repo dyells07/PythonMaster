@@ -1,6 +1,3 @@
-# Author: OMKAR PATHAK
-# In this example, we will see how to implement graphs in Python
-
 class Vertex(object):
     ''' This class helps to create a Vertex for our graph '''
     def __init__(self, key):

@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 # This example shows various array manipulation operations
 import numpy as np

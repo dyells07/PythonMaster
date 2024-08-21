@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 # Data type	  Description
 # bool_	      Boolean (True or False) stored as a byte

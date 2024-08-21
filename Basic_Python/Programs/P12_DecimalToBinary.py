@@ -1,5 +1,3 @@
-#Author: OMKAR PATHAK
-#Program to convert decimal to its equivalent binary
 
 def decimalToBinary(n):
    '''Function to print binary number for the input decimal using recursion'''

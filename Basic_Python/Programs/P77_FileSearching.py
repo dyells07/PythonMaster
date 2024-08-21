@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # This program will help us implement concepts such as binary searching, operating system.
 # P.S: Dont run this on root. That is dont give the DIRECTORY path as root else the program might
 # consume all your resources and your system might get crashed
@@ -7,7 +5,7 @@
 import os
 from pathlib import Path
 
-DIRECTORY = '/home/omkarpathak/Desktop'
+DIRECTORY = '/home/BIPINKHANAL/Desktop'
 
 # List all the directories in the DIRECTORY
 dirs = [name for name in os.listdir(DIRECTORY) if os.path.isdir(os.path.join(DIRECTORY, name))]

@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 import numpy as np
 
@@ -35,7 +35,7 @@ print(np.char.upper('hello'))                   # HELLO
 
 # numpy.char.split(): This function returns a list of words in the input string. By default, a whitespace
 # is used as a separator
-print(np.char.split('Omkar Pathak'))            # ['Omkar', 'Pathak']
+print(np.char.split('BIPIN KHANAL'))            # ['BIPIN', 'KHANAL']
 print(np.char.split('2017-02-11', sep='-'))     # ['2017', '02', '11']
 
 # numpy.char.join(): This method returns a string in which the individual characters are joined by

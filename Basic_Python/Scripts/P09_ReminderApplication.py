@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# Author: OMKAR PATHAK
 
 # This application was developed as I cannot remember for birthdays efficiently.
 # This app helps me remind birthdays and notifies me on their birthdays.
@@ -22,8 +21,8 @@
 import time
 import os
 
-birthdayFile = '/home/omkarpathak/Documents/GITs/Python-Programs/Programs/reminder.data'
-myFilePath = 'python /home/omkarpathak/Documents/GITs/Python-Programs/Programs/P63_ReminderApplication.py'
+birthdayFile = 'Python_Basic/Basic_Python/Scripts/reminder.data'
+myFilePath = 'Python_Basic/Basic_Python/Scripts/P09_ReminderApplication.py'
 
 def checkStartupScript():
     ''' This function ensures that our application executes on every startup '''

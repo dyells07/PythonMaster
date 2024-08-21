@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # This script helps to find the devices (mobiles and computers) connected to my wifi
 
 # This script needs python-nmap as a pre-requisite. To install: sudo pip3 install python-nmap

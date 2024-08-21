@@ -1,4 +1,3 @@
-# Author: OMKAR PATHAK
 # This is a simple tutorial on usinng SQLAlchemy as ORM (Object Relational Mapping)
 
 # Make sure you have installed SQLAlchemy using: pip3 install sqlalchemy
@@ -50,7 +49,7 @@ if __name__ == '__main__':
     session = Session()
 
     # Create objects
-    user = Student('OmkarPathak', 'Omkar', 'Pathak', 'MIT')
+    user = Student('BIPINKHANAL', 'BIPIN', 'KHANAL', 'MIT')
     session.add(user)
 
     # commit the record the database

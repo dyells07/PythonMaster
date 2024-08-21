@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-
-# Author: OMKAR PATHAK
-
 # This is a small fun project which I have developed to get through all the concepts learned so far.
 
 # For installing on Ubuntu:

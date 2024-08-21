@@ -1,4 +1,4 @@
-# Author: OMKAR PATHAK
+# Author: Bipin Khanal
 
 # This program illustrates how to create an adarray from numerical ranges
 

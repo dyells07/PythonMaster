@@ -1,6 +1,3 @@
-# Author: OMKAR PATHAK
-# This example illustrates an example for multiprocessing and synchronization using pipes
-
 from multiprocessing import Process, Pipe
 
 def parentData(parent):

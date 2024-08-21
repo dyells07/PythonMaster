@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This program illustrates an example of singly linked list
-
 class Node(object):
     def __init__(self, data, Next = None, Previous = None):
         self.data = data

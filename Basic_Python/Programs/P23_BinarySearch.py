@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This programs give an example of binary search algorithm
-
 def binarySearch(target, List):
     '''This function performs a binary search on a sorted list and returns the position if successful else returns -1'''
     left = 0 #First position of the list

@@ -1,8 +1,5 @@
-# Author        : Craig Richards
-# Description   : This will scan the current directory and all subdirectories and display the size.
-
 import os       # Load the library module
-directory = '/home/omkarpathak/Documents/GITs/Python-Programs/Scripts' # Set the variable directory to be the current directory
+directory = '/home/BIPINKHANAL/Documents/GITs/Python-Programs/Scripts' # Set the variable directory to be the current directory
 dir_size = 0    # Set the size to 0
 
 fsizedicr = {'Bytes': 1, 'Kilobytes': float(1)/1024, 'Megabytes': float(1)/(1024*1024), 'Gigabytes': float(1)/(1024*1024

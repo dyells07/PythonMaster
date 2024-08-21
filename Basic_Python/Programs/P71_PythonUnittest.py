@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # This module helps to build the testcases for a particular program to test its integrity and overall execution
 
 import unittest

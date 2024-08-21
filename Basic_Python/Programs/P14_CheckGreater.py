@@ -1,5 +1,3 @@
-#Author: OMKAR PATHAK
-#This prpgram checks that the given number is greater than all those numbers in th list
 
 def checkGreater(number):
     '''This function checks whether the entered number is greater than those in the list'''

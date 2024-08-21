@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This program shows an example of insertion sort using Python
-
 #  Insertion sort is good for collections that are very small
 #  or nearly sorted. Otherwise it's not a good sorting algorithm:
 #  it moves data around too much. Each time an insertion is made,

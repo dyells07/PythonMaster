@@ -1,6 +1,3 @@
-#Author: OMKAR PATHAK
-#This program shows an example of bubble sort using Python
-
 #   Bubblesort is an elementary sorting algorithm. The idea is to
 #   imagine bubbling the smallest elements of a (vertical) array to the
 #   top; then bubble the next smallest; then so on until the entire

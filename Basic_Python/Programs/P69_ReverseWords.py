@@ -1,5 +1,3 @@
-# Author: OMKAR PATHAK
-
 # Python program to reverse the words
 
 userInput = input()
