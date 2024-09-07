@@ -1,0 +1,122 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
+from sklearn.base import BaseEstimator, ClassifierMixin
+
+# Load the dataset
+url = "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
+wine = pd.read_csv(url, sep=';')
+
+# Convert quality to binary labels
+wine['label'] = (wine['quality'] >= 7).astype(int)
+wine = wine.drop('quality', axis=1)
+
+# Features and labels
+X = wine.drop('label', axis=1).values
+y = wine['label'].values
+
+# Standardize the features
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+# Split the data into labeled and unlabeled sets
+X_labeled, X_unlabeled, y_labeled, y_unlabeled = train_test_split(
+    X, y, test_size=0.90, random_state=42, stratify=y
+)
+
+# Combine labeled and unlabeled data
+X_combined = np.vstack((X_labeled, X_unlabeled))
+y_combined = np.hstack((y_labeled, -1 * np.ones(len(y_unlabeled), dtype=int)))
+
+# Define the Self-Training Model class
+class SelfLearningModel(BaseEstimator, ClassifierMixin):
+    def __init__(self, base_model, max_iter=100, prob_threshold=0.8):
+        self.base_model = base_model
+        self.max_iter = max_iter
+        self.prob_threshold = prob_threshold
+    
+    def fit(self, X, y):
+        labeled_indices = y != -1
+        unlabeled_indices = y == -1
+        
+        X_labeled = X[labeled_indices]
+        y_labeled = y[labeled_indices]
+        X_unlabeled = X[unlabeled_indices]
+        
+        self.base_model.fit(X_labeled, y_labeled)
+        
+        for iteration in range(self.max_iter):
+            print(f"Iteration {iteration + 1}")
+            probs = self.base_model.predict_proba(X_unlabeled)
+            max_probs = np.max(probs, axis=1)
+            pseudo_labels = np.argmax(probs, axis=1)
+            
+            high_confidence_indices = np.where(max_probs >= self.prob_threshold)[0]
+            
+            if len(high_confidence_indices) == 0:
+                print("No high-confidence predictions found. Stopping.")
+                break
+            
+            X_pseudo = X_unlabeled[high_confidence_indices]
+            y_pseudo = pseudo_labels[high_confidence_indices]
+            
+            print(f"Adding {len(y_pseudo)} pseudo-labeled samples.")
+            
+            X_labeled = np.vstack((X_labeled, X_pseudo))
+            y_labeled = np.hstack((y_labeled, y_pseudo))
+            
+            X_unlabeled = np.delete(X_unlabeled, high_confidence_indices, axis=0)
+            self.base_model.fit(X_labeled, y_labeled)
+        
+        return self
+    
+    def predict(self, X):
+        return self.base_model.predict(X)
+    
+    def predict_proba(self, X):
+        return self.base_model.predict_proba(X)
+
+# Define the base classifier
+base_clf = LogisticRegression(max_iter=1000, solver='liblinear')
+
+# Instantiate the Self-Training model
+self_training_clf = SelfLearningModel(
+    base_model=base_clf,
+    max_iter=20,
+    prob_threshold=0.9  # Higher threshold for higher confidence
+)
+
+# Fit the Self-Training model
+self_training_clf.fit(X_combined, y_combined)
+
+# Evaluate the model on the entire dataset
+y_pred = self_training_clf.predict(X)
+accuracy = accuracy_score(y, y_pred)
+print(f"\nSelf-Training Model Accuracy: {accuracy:.4f}")
+print("\nClassification Report:")
+print(classification_report(y, y_pred))
+
+# Train a supervised classifier on the initially labeled data
+supervised_clf = LogisticRegression(max_iter=1000, solver='liblinear')
+supervised_clf.fit(X_labeled, y_labeled)
+
+# Predict on the entire dataset using the supervised model
+y_supervised_pred = supervised_clf.predict(X)
+supervised_accuracy = accuracy_score(y, y_supervised_pred)
+print(f"\nSupervised Model Accuracy: {supervised_accuracy:.4f}")
+print("\nSupervised Classification Report:")
+print(classification_report(y, y_supervised_pred))
+
+# Confusion Matrix for Self-Training Model
+cm = confusion_matrix(y, y_pred)
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['Bad', 'Good'], yticklabels=['Bad', 'Good'])
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.title('Confusion Matrix for Self-Training Model')
+plt.show()
