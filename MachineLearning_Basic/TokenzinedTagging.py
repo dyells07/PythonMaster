@@ -1,47 +1,53 @@
 import nltk
+import os
+import shutil
+
+# Function to download and verify the 'punkt' tokenizer
+def download_and_verify_punkt():
+    try:
+        # Attempt to download 'punkt'
+        nltk.download('punkt', quiet=True)
+        
+        # Verify that 'punkt' is available
+        nltk.data.find('tokenizers/punkt')
+        print("Punkt tokenizer is successfully downloaded and available.")
+    except LookupError:
+        print("Punkt tokenizer is not available. Please check the download or directory.")
+
+# Function to reset the NLTK data directory
+def reset_nltk_data_directory():
+    # Path to the NLTK data directory
+    nltk_data_dir = nltk.data.path[0]
+
+    # Remove the existing NLTK data directory if it exists
+    if os.path.exists(nltk_data_dir):
+        shutil.rmtree(nltk_data_dir)
+    
+    # Recreate the NLTK data directory
+    os.makedirs(nltk_data_dir)
+    
+    # Attempt to download 'punkt' again
+    download_and_verify_punkt()
+
+# Call the functions to reset NLTK data directory and download 'punkt'
+reset_nltk_data_directory()
+
+# Importing necessary NLTK modules
+from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords, brown, treebank
 from nltk.tag import UnigramTagger, BigramTagger, TrigramTagger, DefaultTagger, BrillTaggerTrainer, brill
 
-# Define a function to ensure NLTK resources are downloaded
-def ensure_nltk_resources():
-    try:
-        nltk.data.find('tokenizers/punkt')
-    except LookupError:
-        print("Downloading 'punkt' tokenizer models...")
-        nltk.download('punkt')
-    
-    try:
-        nltk.data.find('averaged_perceptron_tagger')
-    except LookupError:
-        print("Downloading 'averaged_perceptron_tagger'...")
-        nltk.download('averaged_perceptron_tagger')
-    
-    try:
-        nltk.data.find('corpora/brown')
-    except LookupError:
-        print("Downloading 'brown' corpus...")
-        nltk.download('brown')
-    
-    try:
-        nltk.data.find('corpora/treebank')
-    except LookupError:
-        print("Downloading 'treebank' corpus...")
-        nltk.download('treebank')
-    
-    try:
-        nltk.data.find('corpora/stopwords')
-    except LookupError:
-        print("Downloading 'stopwords'...")
-        nltk.download('stopwords')
-
-# Ensure all necessary NLTK resources are available
-ensure_nltk_resources()
+# Download additional necessary data
+nltk.download('averaged_perceptron_tagger', quiet=True)
+nltk.download('brown', quiet=True)
+nltk.download('treebank', quiet=True)
+nltk.download('stopwords', quiet=True)
 
 # ==============================
 # Example 1: Basic POS Tagging Using Pre-trained Tagger
 # ==============================
 sentence = "The quick brown fox jumps over the lazy dog."
-words = nltk.word_tokenize(sentence)
+words = word_tokenize(sentence)
 tagged_words = nltk.pos_tag(words)
 print("Basic POS Tagging:")
 print(tagged_words)
@@ -64,7 +70,7 @@ for n in range(1, 4):
         tagger = TrigramTagger(combined_corpora, backoff=tagger)
 
 sentence = "She saw a beautiful butterfly flying in the garden."
-words = nltk.word_tokenize(sentence)
+words = word_tokenize(sentence)
 tagged_words = tagger.tag(words)
 print("N-gram Tagging with Backoff Using Multiple Corpora:")
 print(tagged_words)
@@ -79,7 +85,7 @@ bigram_tagger = BigramTagger(brown_tagged_sents, backoff=unigram_tagger)
 trigram_tagger = TrigramTagger(brown_tagged_sents, backoff=bigram_tagger)
 
 sentence = "The company plans to launch a new product."
-words = nltk.word_tokenize(sentence)
+words = word_tokenize(sentence)
 tagged_words = trigram_tagger.tag(words)
 print("Custom Training with Backoff Tagger:")
 print(tagged_words)
@@ -94,7 +100,7 @@ bigram_tagger = BigramTagger(brown_tagged_sents, backoff=unigram_tagger)
 trigram_tagger = TrigramTagger(brown_tagged_sents, backoff=bigram_tagger)
 
 sentence = "Elon Musk announced a new Tesla model."
-words = nltk.word_tokenize(sentence)
+words = word_tokenize(sentence)
 tagged_words = trigram_tagger.tag(words)
 print("Using a Default Tagger with Backoff:")
 print(tagged_words)
@@ -139,9 +145,9 @@ print()
 # Example 7: Stop Words Removal and Sequential N-gram Tagging
 # ==============================
 sentence = "He tends to carp on a lot. He caught a magnificent carp!"
-words = nltk.word_tokenize(sentence)
+words = word_tokenize(sentence)
 
-filtered_words = [w for w in words if w.lower() not in stopwords.words("english")]
+filtered_words = [w for w in words if not w in stopwords.words("english")]
 
 brown_a = brown.tagged_sents(categories='news')
 tagger = None

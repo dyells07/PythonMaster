@@ -1,0 +1,12 @@
+certifi==2020.12.5
+chardet==4.0.0
+chromedriver-autoinstaller==0.3.1
+colorama==0.4.4
+configparser==5.0.1
+crayons==0.4.0
+idna==2.10
+pyperclip==1.8.0
+requests==2.25.1
+selenium==3.141.0
+urllib3==1.26.5
+webdriver-manager==3.3.0
