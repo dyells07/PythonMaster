@@ -14,7 +14,6 @@ def load_params(filepath : str) -> float:
         raise Exception(f"Error loading parameters from {filepath}:{e}")
 
 
-#test_size = yaml.safe_load(open("params.yaml"))["data_collection"]["test_size"]
 
 def load_data(filepath : str) -> pd.DataFrame :
     try:
