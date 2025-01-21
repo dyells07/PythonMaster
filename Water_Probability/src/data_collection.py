@@ -21,17 +21,12 @@ def load_data(filepath : str) -> pd.DataFrame :
     except Exception as e:
         raise Exception(f"Error loading data from {filepath} :{e}")
 
-# data = pd.read_csv(r"C:\Users\SFL-3\water_potability.csv")
 
 def split_data(data : pd.DataFrame, test_size: float) -> tuple[pd.DataFrame,pd.DataFrame]:
     try:
         return train_test_split(data, test_size= test_size, random_state=42)
     except Exception as e:
         raise Exception(f"Error splittin data : {e}")
-
-#train_data, test_data = train_test_split(data, test_size= test_size, random_state=42)
-
-
 
 def save_data(df : pd.DataFrame, filepath: str) -> None:
     try:
