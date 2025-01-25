@@ -2,122 +2,154 @@ import pandas as pd
 import uuid
 import os
 import time
+import tkinter as tk
+from tkinter import ttk, messagebox, simpledialog
+from threading import Thread
 
+# Utility function to check file access
 def check_file_access(filepath):
     while True:
         try:
             with open(filepath, 'a'):
                 break
         except IOError:
-            print(f"Waiting for access to {filepath}...")
             time.sleep(4)
 
-def sign_up():
+# Function to initialize the data file
+def initialize_data_file():
     filepath = 'users.xlsx'
-    check_file_access(filepath)
-    
     if not os.path.exists(filepath):
-        df = pd.DataFrame(columns=['Username', 'Password', 'GUID', 'Vote'])
+        df = pd.DataFrame(columns=['Username', 'Password', 'GUID', 'Vote', 'Role', 'RegisteredOn'])
         df.to_excel(filepath, index=False)
+    return filepath
 
+# Function to handle signup
+def sign_up():
+    filepath = initialize_data_file()
     df = pd.read_excel(filepath)
 
-    username = input("Enter a username: ")
-    password = input("Enter a password: ")
+    username = simpledialog.askstring("Sign Up", "Enter a username:")
+    if not username:
+        return
 
     if username in df['Username'].values:
-        print("Username already exists. Please try again.")
+        messagebox.showerror("Error", "Username already exists. Please try again.")
+        return
+
+    password = simpledialog.askstring("Sign Up", "Enter a password:", show='*')
+    if not password:
         return
 
     guid = str(uuid.uuid4())
+    registered_on = time.strftime("%Y-%m-%d %H:%M:%S")
 
-    new_user = pd.DataFrame([[username, password, guid, None]], columns=['Username', 'Password', 'GUID', 'Vote'])
+    new_user = pd.DataFrame(
+        [[username, password, guid, None, 'User', registered_on]],
+        columns=['Username', 'Password', 'GUID', 'Vote', 'Role', 'RegisteredOn']
+    )
     df = pd.concat([df, new_user], ignore_index=True)
-
     df.to_excel(filepath, index=False)
 
-    print(f"User {username} registered successfully!")
+    messagebox.showinfo("Success", f"User {username} registered successfully!")
 
-def login():
-    filepath = 'users.xlsx'
-    check_file_access(filepath)
-    
-    if not os.path.exists(filepath):
-        print("No users found. Please sign up first.")
+# Function to handle login
+def login(role_required='User'):
+    filepath = initialize_data_file()
+    df = pd.read_excel(filepath)
+
+    username = simpledialog.askstring("Login", "Enter your username:")
+    if not username:
         return None
 
-    df = pd.read_excel(filepath)
-
-    username = input("Enter your username: ")
-    password = input("Enter your password: ")
-
+    password = simpledialog.askstring("Login", "Enter your password:", show='*')
+    if not password:
+        return None
 
     user = df[(df['Username'] == username) & (df['Password'] == password)]
+    if user.empty:
+        messagebox.showerror("Error", "Invalid username or password.")
+        return None
 
-    if not user.empty:
-        guid = user.iloc[0]['GUID']
-        #print(f"Login successful! Your session token: {guid}")
-        return guid
-    else:
-        print("Invalid username or password. Please try again.")
-        return login()
+    if user.iloc[0]['Role'] != role_required and role_required != 'User':
+        messagebox.showerror("Error", f"Access denied. {role_required} role required.")
+        return None
 
+    messagebox.showinfo("Success", "Login successful!")
+    return user.iloc[0]['GUID']
+
+# Function to handle voting
 def vote(guid):
-    filepath = 'users.xlsx'
-    check_file_access(filepath)
-    
-    # Load the user data from the Excel file
+    filepath = initialize_data_file()
     df = pd.read_excel(filepath)
-
-    # Ensure the Vote column is explicitly cast to string
-    df['Vote'] = df['Vote'].astype(str)
-
-    # Find the user by GUID
     user_index = df[df['GUID'] == guid].index
 
     if user_index.empty:
-        print("User not found.")
+        messagebox.showerror("Error", "User not found.")
         return
 
-    # Check if the user has already voted
     current_vote = df.loc[user_index, 'Vote'].values[0]
-    if current_vote and (current_vote == 'Party A' or current_vote == 'Party B'):
-        print("You have already voted. You cannot vote again.")
+    if current_vote:
+        messagebox.showinfo("Info", f"You have already voted for {current_vote}.")
         return
 
-    print("\nVote for your preferred party:")
-    print("1. Party A")
-    print("2. Party B")
-    choice = input("Enter the number corresponding to your choice: ")
+    def cast_vote(choice):
+        nonlocal df, user_index
+        df.loc[user_index, 'Vote'] = choice
+        df.to_excel(filepath, index=False)
+        messagebox.showinfo("Success", f"You voted for {choice}!")
+        vote_window.destroy()
 
-    if choice == '1':
-        df.loc[user_index, 'Vote'] = 'Party A'
-        print("You voted for Party A.")
-    elif choice == '2':
-        df.loc[user_index, 'Vote'] = 'Party B'
-        print("You voted for Party B.")
-    else:
-        return
+    vote_window = tk.Toplevel()
+    vote_window.title("Vote")
+    vote_window.geometry("300x200")
+    tk.Label(vote_window, text="Vote for your preferred party:", font=("Arial", 14)).pack(pady=10)
+    tk.Button(vote_window, text="Party A", command=lambda: cast_vote('Party A'), width=15).pack(pady=5)
+    tk.Button(vote_window, text="Party B", command=lambda: cast_vote('Party B'), width=15).pack(pady=5)
+
+# Function to view real-time results
+def view_results():
+    filepath = initialize_data_file()
     
-    df.to_excel(filepath, index=False)
+    def update_results():
+        while True:
+            time.sleep(1)  # Refresh every second
+            df = pd.read_excel(filepath)
+            results = df['Vote'].value_counts()
+            party_a_votes.set(f"Party A: {results.get('Party A', 0)} votes")
+            party_b_votes.set(f"Party B: {results.get('Party B', 0)} votes")
 
+    results_window = tk.Toplevel()
+    results_window.title("Live Voting Results")
+    results_window.geometry("300x200")
+
+    tk.Label(results_window, text="Live Voting Results", font=("Arial", 16, "bold")).pack(pady=10)
+    party_a_votes = tk.StringVar(value="Party A: 0 votes")
+    party_b_votes = tk.StringVar(value="Party B: 0 votes")
+    tk.Label(results_window, textvariable=party_a_votes, font=("Arial", 14)).pack(pady=5)
+    tk.Label(results_window, textvariable=party_b_votes, font=("Arial", 14)).pack(pady=5)
+
+    # Run the update function in a separate thread
+    Thread(target=update_results, daemon=True).start()
+
+# Main GUI application
 def main():
-    while True:
-        print("\n1. Sign Up")
-        print("\n2. Login")
-        print("\n3. Exit")
-        choice = input("Choose an option: ")
+    root = tk.Tk()
+    root.title("Voting System")
+    root.geometry("400x400")
 
-        if choice == '1':
-            sign_up()
-        elif choice == '2':
-            token = login()
-            if token:
-                vote(token)
-        elif choice == '3':
-            break
-        else:
-            print("Invalid option. Please choose again.")
+    tk.Label(root, text="Welcome to the Voting System", font=("Arial", 18, "bold")).pack(pady=20)
+    tk.Button(root, text="Sign Up", command=sign_up, width=20).pack(pady=10)
+    tk.Button(root, text="Login and Vote", command=lambda: login_and_vote(), width=20).pack(pady=10)
+    tk.Button(root, text="View Results (Live)", command=view_results, width=20).pack(pady=10)
+    tk.Button(root, text="Exit", command=root.quit, width=20).pack(pady=10)
+
+    def login_and_vote():
+        guid = login()
+        if guid:
+            vote(guid)
+
+    root.mainloop()
 
 if __name__ == "__main__":
+    initialize_data_file()
     main()
