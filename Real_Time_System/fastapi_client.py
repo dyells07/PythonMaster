@@ -1,25 +1,37 @@
 import asyncio
 import websockets
 
-async def send_message(uri, message):
+async def communicate(uri):
     async with websockets.connect(uri) as websocket:
-        await websocket.send(message)
-        print(f"Sent: {message}")
+        print("Connected to the WebSocket server.")
 
-async def receive_messages(uri):
-    async with websockets.connect(uri) as websocket:
-        async for message in websocket:
-            print(f"Received: {message}")
+        # Create a task for receiving messages
+        async def receive_messages():
+            try:
+                async for message in websocket:
+                    print(f"Received: {message}")
+            except websockets.ConnectionClosed:
+                print("Connection closed by the server.")
 
-async def main():
-    uri = "ws://localhost:8000/ws"
-    # Create a task for receiving messages
-    receive_task = asyncio.create_task(receive_messages(uri))
-    
-    # Simulate sending messages
-    while True:
-        message = input("Enter message to send: ")
-        await send_message(uri, message)
+        # Run the receiver in the background
+        receive_task = asyncio.create_task(receive_messages())
+
+        # Simulate sending messages
+        try:
+            while True:
+                message = input("Enter message to send: ")
+                if message.lower() == "exit":
+                    print("Exiting...")
+                    break
+                await websocket.send(message)
+                print(f"Sent: {message}")
+        except websockets.ConnectionClosed:
+            print("Connection closed. Unable to send message.")
+        finally:
+            # Cancel the receive task when done
+            receive_task.cancel()
+            print("Disconnected from the WebSocket server.")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    uri = "ws://localhost:8000/ws"
+    asyncio.run(communicate(uri))

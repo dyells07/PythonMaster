@@ -1,24 +1,39 @@
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from typing import List
 
 app = FastAPI()
-connections: List[WebSocket] = []
+
+class ConnectionManager:
+    def __init__(self):
+        self.connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.connections.remove(websocket)
+
+    async def broadcast(self, message: str, sender: WebSocket):
+        # Broadcast message to all connections except the sender
+        for connection in self.connections:
+            if connection is not sender:
+                await connection.send_text(message)
+
+manager = ConnectionManager()
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    connections.append(websocket)
+    await manager.connect(websocket)
     try:
         while True:
+            # Wait to receive a message from the client
             data = await websocket.receive_text()
-            for connection in connections:
-                if connection is not websocket:
-                    await connection.send_text(data)
+            # Broadcast the message to all other connections
+            await manager.broadcast(data, websocket)
+    except WebSocketDisconnect:
+        print(f"Client disconnected: {websocket.client.host}")
+        manager.disconnect(websocket)
     except Exception as e:
-        print(f"Connection error: {e}")
-    finally:
-        connections.remove(websocket)
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+        print(f"Unexpected error: {e}")
+        manager.disconnect(websocket)
