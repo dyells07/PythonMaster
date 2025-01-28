@@ -7,27 +7,52 @@ import chromedriver_autoinstaller
 import time
 import pyperclip
 import sys
-from config import CHROME_PROFILE_PATH
+import os
+import platform
 
+# Function to get the default Chrome profile path
+def get_chrome_profile_path():
+    os_name = platform.system()
+    if os_name == "Windows":
+        return "--user-data-dir=" + os.path.join(os.getenv("LOCALAPPDATA"), "Google", "Chrome", "User Data")
+    elif os_name == "Darwin":  # macOS
+        return "--user-data-dir=" + os.path.expanduser("~/Library/Application Support/Google/Chrome")
+    elif os_name == "Linux":
+        return "--user-data-dir=" + os.path.expanduser("~/.config/google-chrome")
+    else:
+        raise Exception("Unsupported operating system: " + os_name)
+
+# Install ChromeDriver automatically
 chromedriver_autoinstaller.install()
 
+# Set Chrome options
 options = webdriver.ChromeOptions()
-options.add_argument(CHROME_PROFILE_PATH)
+options.add_argument(get_chrome_profile_path())  # Add the dynamically detected Chrome profile path
 driver = webdriver.Chrome(options=options)
 driver.maximize_window()
 
+# Open WhatsApp Web
 driver.get("https://web.whatsapp.com/")
 wait = WebDriverWait(driver, 300)
+
+# Read group names from the file (use a default if not passed as argument)
+groups = []
 try:
-    if sys.argv[1]:
+    if len(sys.argv) > 1:
         with open(sys.argv[1], 'r', encoding='utf8') as f:
             groups = [group.strip() for group in f.readlines()]
-except IndexError:
-    print("Please enter the filename as first argument.")
+    else:
+        print("No groups file provided, using default group.")
+        groups = ['Testing_500']  # Default to Testing_500 group if no file is provided
+except FileNotFoundError:
+    print("File not found, using default group.")
+    groups = ['Testing_500']  # Default to Testing_500 group if file is missing
 
+# Read the message content from the file
 with open('msg.txt', 'r', encoding='utf8') as f:
     msg = f.read()
 
+# Iterate through the groups and send messages
 for index, item in enumerate(groups):
     try:
         search_xpath = '//div[@contenteditable="true"][@data-tab="3"]'
@@ -55,8 +80,9 @@ for index, item in enumerate(groups):
         input_box.send_keys(Keys.ENTER)
         time.sleep(1)
 
+        # Attach files if provided
         try:
-            if sys.argv[2]:
+            if len(sys.argv) > 2:
                 attachment_box = WebDriverWait(driver, 5).until(
                     EC.presence_of_element_located((By.XPATH, '//div[@title = "Attach"]')))
                 attachment_box.click()
