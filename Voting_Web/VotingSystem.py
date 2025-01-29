@@ -3,24 +3,27 @@ import pandas as pd
 import uuid
 import os
 import secrets
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
-filepath = 'users.xlsx'
+FILEPATH = 'users.xlsx'
+COLUMNS = ['Username', 'Password', 'GUID', 'Vote']
 
-def check_file_access(filepath):
-    while True:
-        try:
-            with open(filepath, 'a'):
-                break
-        except IOError:
-            time.sleep(4)
-
+# Initialize database
 def init_db():
-    if not os.path.exists(filepath):
-        df = pd.DataFrame(columns=['Username', 'Password', 'GUID', 'Vote'])
-        df.to_excel(filepath, index=False)
+    if not os.path.exists(FILEPATH):
+        df = pd.DataFrame(columns=COLUMNS)
+        df.to_excel(FILEPATH, index=False, engine='openpyxl')
+
+# Load user data
+def load_users():
+    return pd.read_excel(FILEPATH, engine='openpyxl')
+
+# Save user data
+def save_users(df):
+    df.to_excel(FILEPATH, index=False, engine='openpyxl')
 
 @app.route('/')
 def index():
@@ -31,14 +34,16 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        check_file_access(filepath)
-        df = pd.read_excel(filepath)
+        
+        df = load_users()
         if username in df['Username'].values:
             return "Username already exists. Please try again."
-        guid = str(uuid.uuid4())
-        new_user = pd.DataFrame([[username, password, guid, None]], columns=['Username', 'Password', 'GUID', 'Vote'])
+
+        hashed_password = generate_password_hash(password)
+        new_user = pd.DataFrame([[username, hashed_password, str(uuid.uuid4()), None]], columns=COLUMNS)
         df = pd.concat([df, new_user], ignore_index=True)
-        df.to_excel(filepath, index=False)
+        save_users(df)
+        
         return redirect(url_for('index'))
     return render_template('signup.html')
 
@@ -47,13 +52,15 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        check_file_access(filepath)
-        df = pd.read_excel(filepath)
-        user = df[(df['Username'] == username) & (df['Password'] == password)]
-        if not user.empty:
+
+        df = load_users()
+        user = df[df['Username'] == username]
+        
+        if not user.empty and check_password_hash(user.iloc[0]['Password'], password):
             session['guid'] = user.iloc[0]['GUID']
             return redirect(url_for('vote'))
         return "Invalid username or password. Please try again."
+    
     return render_template('login.html')
 
 @app.route('/vote', methods=['GET', 'POST'])
@@ -61,22 +68,22 @@ def vote():
     if 'guid' not in session:
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
-        guid = session['guid']
-        choice = request.form['choice']
-        check_file_access(filepath)
-        df = pd.read_excel(filepath)
-        user_index = df[df['GUID'] == guid].index
-        current_vote = df.loc[user_index, 'Vote'].values[0]
-        if current_vote and (current_vote == 'Party A' or current_vote == 'Party B'):
-            return "You have already voted. You cannot vote again."
+    df = load_users()
+    user_index = df[df['GUID'] == session['guid']].index
 
-        if choice == '1':
-            df.loc[user_index, 'Vote'] = 'Party A'
-        elif choice == '2':
-            df.loc[user_index, 'Vote'] = 'Party B'
-        df.to_excel(filepath, index=False)
+    if user_index.empty:
+        return redirect(url_for('logout'))  # Log out if session is invalid
+
+    if request.method == 'POST':
+        if df.loc[user_index, 'Vote'].notna().any():
+            return "You have already voted. You cannot vote again."
+        
+        choice = request.form['choice']
+        df.loc[user_index, 'Vote'] = 'Party A' if choice == '1' else 'Party B'
+        save_users(df)
+
         return "Vote recorded successfully!"
+    
     return render_template('vote.html')
 
 @app.route('/logout')
