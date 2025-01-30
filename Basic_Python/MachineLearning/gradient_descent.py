@@ -1,102 +1,87 @@
-####################################################################################
-## PROBLEM1: Gradient Descent
-## Gradient descent is a popular optimization technique to solve many
-## machine learning problems. In this case, we will explore the gradient
-## descent algorithm to fit a line for the given set of 2-D points.
-## ref: https://tinyurl.com/yc4jbjzs
-## ref: https://spin.atomicobject.com/2014/06/24/gradient-descent-linear-regression/
-##
-##
-## input: directory of faces in ./data/1_points.csv/
-## function for reading points is provided
-##
-##
-## your task: fill the following functions:
-## evaluate_cost
-## evaluate_gradient
-## udpate_params
-## NOTE: do NOT change values of 'init_params' and 'max_iterations' in optimizer
-##
-##
-## output: cost after convergence (rmse, lower the better)
-##
-##
-## NOTE: all required modules are imported. DO NOT import new modules.
-## NOTE: references are given intline
-## tested on Ubuntu14.04, 22Oct2017, Abhilash Srikantha
-####################################################################################
-
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import os
 
 def load_data(fname):
-    points = np.loadtxt(fname, delimiter=',') 
-    y_ = points[:,1]
-    # append '1' to account for the intercept
-    x_ = np.ones([len(y_),2]) 
-    x_[:,0] = points[:,0]
-    # display plot
-    #plt.plot(x_[:,0], y_, 'ro')
-    #plt.xlabel('x-axis')
-    #plt.ylabel('y-axis')
-    #plt.show()
-    print('data loaded. x:{} y:{}'.format(x_.shape, y_.shape))
-    return x_, y_
+    """ Load data from a CSV file and prepare it for gradient descent. """
+    if not os.path.exists(fname):
+        raise FileNotFoundError(f"Error: File '{fname}' not found. Check the file path.")
+    
+    points = np.loadtxt(fname, delimiter=',')
+    X = np.c_[points[:, 0], np.ones(len(points))]  # Add bias column (intercept)
+    y = points[:, 1]
+    
+    print(f"✅ Data loaded: X shape = {X.shape}, y shape = {y.shape}")
+    return X, y
 
-def evaluate_cost(x_,y_,params):
-    tempcost = 0
-    for i in range(len(y_)):
-        tempcost += (y_[i] - ((params[0] * x_[i,0]) + params[1])) ** 2 
-    return tempcost / float(10000)   
+def evaluate_cost(X, y, params):
+    """ Compute Mean Squared Error (MSE) cost function using vectorization. """
+    errors = y - X @ params  # Vectorized error computation
+    return np.mean(errors ** 2) / 2  # Normalized cost for consistency
 
-def evaluate_gradient(x_,y_,params):
-    m_gradient = 0
-    b_gradient = 0
-    N = float(len(y_))
-    for i in range(len(y_)):
-        m_gradient += -(2/N) * (x_[i,0] * (y_[i] - ((params[0] * x_[i,0]) + params[1])))
-        b_gradient += -(2/N) * (y_[i] - ((params[0] * x_[i,0]) + params[1]))
-    return [m_gradient,b_gradient]
+def evaluate_gradient(X, y, params):
+    """ Compute gradient of the cost function w.r.t. parameters using vectorization. """
+    errors = y - X @ params
+    return -X.T @ errors / len(y)  # Vectorized gradient computation
 
-def update_params(old_params, grad, alpha):
-    new_m = old_params[0] - (alpha * grad[0])
-    new_b = old_params[1] - (alpha * grad[1])
-    return [new_m,new_b]
-
-# initialize the optimizer
-optimizer = {'init_params':np.array([4.5,2.0]) , 
-             'max_iterations':10000, 
-             'alpha':0.69908, 
-             'eps':0.0000001,
-             'inf':1e10}
-
-# load data
-x_, y_ = load_data("./data/1_points.csv")
-
-# time stamp
-start = time.time()
-
-try:
-    # gradient descent
-    params = optimizer['init_params']
-    old_cost = 1e10
-    for iter_ in range(optimizer['max_iterations']):
-        # evaluate cost and gradient
-        cost = evaluate_cost(x_,y_,params)
-        grad = evaluate_gradient(x_,y_,params)
-        # display
-        if(iter_ % 10 == 0):
-            print('iter: {} cost: {} params: {}'.format(iter_, cost, params))
-        # check convergence
-        if(abs(old_cost - cost) < optimizer['eps']):
+def gradient_descent(X, y, init_params, alpha=0.01, max_iters=10000, tolerance=1e-7):
+    """ Perform optimized gradient descent with adaptive learning rate. """
+    params = np.array(init_params, dtype=np.float64)
+    cost_history = []
+    prev_cost = float('inf')
+    start_time = time.time()
+    
+    for i in range(max_iters):
+        cost = evaluate_cost(X, y, params)
+        gradient = evaluate_gradient(X, y, params)
+        
+        # Check convergence
+        if abs(prev_cost - cost) < tolerance:
             break
-        # udpate parameters
-        params = update_params(params,grad,optimizer['alpha'])
-        old_cost = cost
-except:
-    cost = optimizer['inf']
+        
+        # Adaptive learning rate decay if divergence occurs
+        if cost > prev_cost:
+            alpha *= 0.9  # Reduce learning rate if cost increases
+        
+        # Update parameters
+        params -= alpha * gradient
+        cost_history.append(cost)
+        prev_cost = cost
+        
+        # Print updates every 100 iterations
+        if i % 100 == 0:
+            print(f"Iteration {i:5d} | Cost: {cost:.6f} | Params: {params}")
 
-# final output
-print('time elapsed: {}'.format(time.time() - start))
-print('cost at convergence: {} (lower the better)'.format(cost))
+    elapsed_time = time.time() - start_time
+    print(f"\n🚀 Optimization complete in {elapsed_time:.4f} seconds")
+    print(f"🔹 Final cost: {prev_cost:.6f}")
+    print(f"🔹 Optimal parameters: {params}\n")
+    
+    return params, cost_history
+
+# Set up paths dynamically
+script_dir = os.path.dirname(os.path.abspath(__file__))
+data_file = os.path.join(script_dir, "data", "1_points.csv")
+
+# Initialize parameters
+init_params = [4.5, 2.0]
+alpha = 0.05  # Adjusted for stability
+
+# Load data
+try:
+    X, y = load_data(data_file)
+    # Run gradient descent
+    optimal_params, cost_history = gradient_descent(X, y, init_params, alpha)
+    
+    # Plot cost history
+    plt.figure(figsize=(8, 5))
+    plt.plot(cost_history, label="Cost over iterations", color="b", linewidth=2)
+    plt.xlabel("Iterations")
+    plt.ylabel("Cost")
+    plt.title("Gradient Descent Cost Reduction")
+    plt.legend()
+    plt.grid(True, linestyle="--", alpha=0.6)
+    plt.show()
+except FileNotFoundError as e:
+    print(e)
