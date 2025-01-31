@@ -8,8 +8,6 @@ def load_data(filepath : str) -> pd.DataFrame:
         return pd.read_csv(filepath)
     except Exception as e:
         raise Exception(f"Error loading data from {filepath}:{e}")
-# train_data = pd.read_csv("./data/raw/train.csv")
-# test_data = pd.read_csv("./data/raw/test.csv")
 
 
 def fill_missing_with_median(df):
