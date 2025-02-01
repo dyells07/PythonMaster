@@ -28,17 +28,17 @@
 
 # MY SOLUTION:
 
-testCase = int(input())
-for i in range(0, testCase):
-    n = int(input())
-    userInput = input().split()
-    userInput = sorted([int(i) for i in userInput])
-    mdif = (userInput[1] - userInput[0])            # Check difference
-    for i in range(0, n-1):
-        dif = userInput[i+1] - userInput[i]
-        if dif < mdif:
-            mdif = dif
-    print(mdif)
+T = int(input())
+for _ in range(T):
+    N = int(input())
+    S = list(map(int, input().split()))
+    S.sort()
+    min_diff = float('inf')
+    for i in range(N - 1):
+        diff = S[i+1] - S[i]
+        if diff < min_diff:
+            min_diff = diff
+    print(min_diff)
 
 # OUTPUT for above solution:
 # 1
