@@ -36,12 +36,11 @@ def gradient_descent(X, y, init_params, alpha=0.01, max_iters=10000, tolerance=1
         cost = evaluate_cost(X, y, params)
         gradient = evaluate_gradient(X, y, params)
         
-        # Check convergence
         if abs(prev_cost - cost) < tolerance:
             break
         
         if cost > prev_cost:
-            alpha *= 0.9  # Reduce learning rate if cost increases
+            alpha *= 0.9 
         
         # Update parameters
         params -= alpha * gradient
