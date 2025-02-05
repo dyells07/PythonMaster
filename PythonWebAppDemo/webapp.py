@@ -30,10 +30,10 @@ class MovieRecommendationHandler(http.server.BaseHTTPRequestHandler):
                 "zipcode": form_data['zipcode'][0]
             }
 
-            # Call your movie recommendation function with user data
+ 
             recommended_movies = recommend_movies_for_user(user_data)
 
-            # Send the response with recommended movies
+            
             self.send_response(200)
             self.send_header('Content-type', 'text/html')
             self.end_headers()
