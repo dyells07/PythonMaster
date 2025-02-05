@@ -2,29 +2,27 @@
 
 import numpy as np
 
+# Define angles in degrees
 angles = np.array([0, 30, 45, 60, 90, 180, 360])
 
-# Convert to radians by multiplying with pi/180
-# for getting sine of angles
-print(np.sin(angles * np.pi/180))
+# Convert angles to radians
+radians = np.radians(angles)
 
-# for getting cosine of angles
-print(np.cos(angles * np.pi/180))
+# Compute trigonometric functions
+sine = np.sin(radians)
+cosine = np.cos(radians)
+tangent = np.tan(radians)
 
-# for getting tangent of angles
-print(np.tan(angles * np.pi/180))
+# Print results
+print("Sine values:", sine)
+print("Cosine values:", cosine)
+print("Tangent values:", tangent)
 
-# for computing inverse of trigonometric functions
-sine = np.sin(angles * np.pi/180)
-sineinv = np.arcsin(sine)
-# computing angle from inverse
-print(np.degrees(sineinv))
+# Compute inverse sine and convert to degrees
+sine_inv = np.degrees(np.arcsin(sine))
+print("Inverse Sine (in degrees):", sine_inv)
 
-# for rounding the values
-print(np.around(sine, 4))       # [ 0.      0.5     0.7071  0.866   1.      0.     -0.    ]
-
-# for rounding to previous integer
-print(np.floor(sine))           # [ 0.  0.  0.  0.  1.  0. -1.]
-
-# for rounding to next integer
-print(np.ceil(sine))            # [ 0.  1.  1.  1.  1.  1. -0.]
+# Rounding operations
+print("Rounded sine values:", np.round(sine, 4))
+print("Floor values:", np.floor(sine))
+print("Ceil values:", np.ceil(sine))

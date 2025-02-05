@@ -2,24 +2,23 @@
 
 import numpy as np
 
-firstArray = np.arange(12).reshape(3, 4)
-print(firstArray)
+# Create two NumPy arrays
+first_array = np.arange(12).reshape(3, 4)
+second_array = np.arange(4)
 
-secondArray = np.arange(4)
-print(secondArray)
+print("First Array:\n", first_array)
+print("Second Array:\n", second_array)
 
-# adding above two arrays (NOTE: array shapes should be same)
-print(np.add(firstArray, secondArray))
+# Perform arithmetic operations (NumPy broadcasting applies)
+print("Addition:\n", np.add(first_array, second_array))
+print("Subtraction:\n", np.subtract(first_array, second_array))
+print("Multiplication:\n", np.multiply(first_array, second_array))
 
-# subtracting above two arrays
-print(np.subtract(firstArray, secondArray))
+# Handle division safely (avoid division by zero warnings)
+np.seterr(divide='ignore', invalid='ignore')
+division_result = np.divide(first_array, second_array, where=second_array != 0)
+print("Division:\n", division_result)
 
-# multiplying above two arrays
-print(np.multiply(firstArray, secondArray))
-
-# dividing the above two arrays
-print(np.divide(firstArray, secondArray))
-
-# numpy.power(): returns array element raised to the specified value result
+# Using NumPy power function efficiently
 array = np.array([1, 2, 3])
-print(np.power(array, 2))       # [1 4 9]
+print("Exponentiation (Squared Values):", np.power(array, 2))

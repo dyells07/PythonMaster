@@ -5,39 +5,36 @@ import numpy as np
 abc = ['abc']
 xyz = ['xyz']
 
-# string concatenation
+# String concatenation
 print(np.char.add(abc, xyz))    # ['abcxyz']
-
 print(np.char.add(abc, 'pqr'))  # ['abcpqr']
 
-# string multiplication
+# String multiplication
 print(np.char.multiply(abc, 3)) # ['abcabcabc']
 
-# numpy.char.center: This function returns an array of the required width so that the input string is
-# centered and padded on the left and right with fillchar.
+# Centering a string with fill characters
+print(np.char.center(abc, 20, fillchar='*'))  # ['********abc*********']
 
-print(np.char.center(abc, 20, fillchar = '*'))  # ['********abc*********']
+# Capitalizing first letter
+print(np.char.capitalize('hello world'))        # Hello world
 
-# numpy.char.capitalize(): This function returns the copy of the string with the first letter capitalized.
-print(np.char.capitalize('hello world'))        # Hello world
+# Title case
+print(np.char.title('hello how are you?'))      # Hello How Are You?
 
-# numpy.char.title(): This function returns a title cased version of the input string with the first letter
-# of each word capitalized.
-print(np.char.title('hello how are you?'))      # Hello How Are You?
+# Convert to lowercase
+print(np.char.lower(['HELLO', 'WORLD']))        # ['hello' 'world']
 
-# numpy.char.lower(): This function returns an array with elements converted to lowercase. It calls
-# str.lower for each element.
-print(np.char.lower(['HELLO','WORLD']))         # ['hello' 'world']
-
-# numpy.char.upper(): This function calls str.upper function on each element in an array to return
-# the uppercase array elements.
+# Convert to uppercase
 print(np.char.upper('hello'))                   # HELLO
 
-# numpy.char.split(): This function returns a list of words in the input string. By default, a whitespace
-# is used as a separator
-print(np.char.split('BIPIN KHANAL'))            # ['BIPIN', 'KHANAL']
-print(np.char.split('2017-02-11', sep='-'))     # ['2017', '02', '11']
+# Splitting a string
+print(np.char.split('BIPIN KHANAL'))            # ['BIPIN', 'KHANAL']
+print(np.char.split('2017-02-11', sep='-'))     # ['2017', '02', '11']
 
-# numpy.char.join(): This method returns a string in which the individual characters are joined by
-# separator character specified.
-print(np.char.join(':','dmy'))                  # d:m:y
+# Optimized way to join characters in a string
+print(':'.join('dmy'))                          # d:m:y
+
+# Handling an array of strings efficiently
+arr = np.array(['dmy', 'ymd', 'mdy'])
+print(np.array([':'.join(s) for s in arr]))  
+# Output: ['d:m:y' 'y:m:d' 'm:d:y']
