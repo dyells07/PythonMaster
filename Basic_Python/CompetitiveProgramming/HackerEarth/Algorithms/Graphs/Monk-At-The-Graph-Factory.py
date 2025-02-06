@@ -28,10 +28,6 @@
 
 n = int(input())
 degrees = [int(i) for i in input().split()]
-
-# Number of nodes are given thus in a tree number of edges are (n-1) and each edge has two degree
-# thus in tree data structure total degree should be 2*(n-1) and this should be equal to sum of given degree
-
 if(2 * (n - 1) == sum(degrees)):
     print('Yes')
 else:
