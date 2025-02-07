@@ -18,9 +18,6 @@ print(user1.total)
 # Output: Tim cook
 #         Elon Musk has 10000 dollars in the account
 
-
-#With property decorators
-
 class BankAccount:
     def __init__(self,name,balance):
         self.name=name
