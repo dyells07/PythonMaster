@@ -10,13 +10,11 @@ import string
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Download NLTK data
 nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-# Preprocessing function
 def preprocess_text(text):
     stop_words = set(stopwords.words('english'))
     lemmatizer = WordNetLemmatizer()
@@ -28,7 +26,6 @@ def preprocess_text(text):
 
     return " ".join(tokens)
 
-# Dataset
 X = ["Document 1: Hello world!", "Document 2: Spammy text!", "Document 3: Good morning."]
 y = ["ham", "spam", "ham"]
 
