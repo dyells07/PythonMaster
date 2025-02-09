@@ -1,4 +1,4 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
+⁶from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn import metrics
@@ -29,13 +29,10 @@ def preprocess_text(text):
 X = ["Document 1: Hello world!", "Document 2: Spammy text!", "Document 3: Good morning."]
 y = ["ham", "spam", "ham"]
 
-# Preprocess text
 X = [preprocess_text(doc) for doc in X]
 
-# Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-# Vectorization with TF-IDF
 vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=1000)
 X_train_tfidf = vectorizer.fit_transform(X_train)
 X_test_tfidf = vectorizer.transform(X_test)
