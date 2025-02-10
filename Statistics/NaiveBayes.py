@@ -37,7 +37,6 @@ vectorizer = TfidfVectorizer(ngram_range=(1, 2), max_features=1000)
 X_train_tfidf = vectorizer.fit_transform(X_train)
 X_test_tfidf = vectorizer.transform(X_test)
 
-# Handle class imbalance
 oversampler = RandomOverSampler(random_state=42)
 X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train_tfidf, y_train)
 
