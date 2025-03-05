@@ -10,7 +10,6 @@ import sys
 import os
 import platform
 
-# Function to get the default Chrome profile path
 def get_chrome_profile_path():
     os_name = platform.system()
     if os_name == "Windows":
@@ -22,10 +21,8 @@ def get_chrome_profile_path():
     else:
         raise Exception("Unsupported operating system: " + os_name)
 
-# Install ChromeDriver automatically
 chromedriver_autoinstaller.install()
 
-# Set Chrome options
 options = webdriver.ChromeOptions()
 options.add_argument(get_chrome_profile_path())  # Add the dynamically detected Chrome profile path
 driver = webdriver.Chrome(options=options)
