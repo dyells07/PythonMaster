@@ -9,8 +9,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Settings
 search_query = "karuwa"
-num_images = 1000
-output_dir = "PRE_images"
+num_images = 10
+output_dir = "karuwa_images"
 
 # Create output directory
 os.makedirs(output_dir, exist_ok=True)
@@ -18,8 +18,7 @@ os.makedirs(output_dir, exist_ok=True)
 # Selenium driver setup (CORRECTED)
 service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
-driver.get(f'https://limitlesstcg.com/cards/PRE')
-
+driver.get(f'https://www.google.com/search?tbm=isch&q={search_query}')
 # Scroll to load images
 last_height = driver.execute_script("return document.body.scrollHeight")
 while True:
