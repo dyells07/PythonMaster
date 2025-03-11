@@ -8,9 +8,9 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Settings
-search_query = "karuwa"
-num_images = 10
-output_dir = "karuwa_images"
+search_query = "Singing Bowls"
+num_images = 100
+output_dir = "Singing_Bowls_Paintings"
 
 # Create output directory
 os.makedirs(output_dir, exist_ok=True)
