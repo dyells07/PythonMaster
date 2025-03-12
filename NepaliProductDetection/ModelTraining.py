@@ -64,10 +64,10 @@ model.fit(
 )
 
 # Save the trained model
-model.save('plant_disease_model.h5')
+model.save('predict_object_model.h5')
 
 # Example prediction on new images
-def predict_disease(image_path):
+def predict_object(image_path):
     from tensorflow.keras.preprocessing import image
     img = image.load_img(image_path, target_size=(img_height, img_width))
     img_array = image.img_to_array(img)
@@ -81,5 +81,5 @@ def predict_disease(image_path):
     return class_labels[class_index[0]]
 
 # Usage example
-result = predict_disease('./example_leaf.jpg')
-print('Predicted Disease:', result)
+result = predict_object('./example_object.jpg')
+print('Predicted object:', result)
