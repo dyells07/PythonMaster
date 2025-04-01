@@ -24,7 +24,6 @@ print(f"Training samples: {x_train.shape[0]}")
 print(f"Validation samples: {x_val.shape[0]}")
 print(f"Test samples: {x_test.shape[0]}")
 
-# 2. Define the CNN architecture
 def create_cnn_model(input_shape=(32, 32, 3), num_classes=10):
     model = models.Sequential()
 
