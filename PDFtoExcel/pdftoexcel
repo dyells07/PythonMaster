@@ -1,0 +1,56 @@
+import os
+import pdfplumber
+import pandas as pd
+
+input_root = "inputpdf"
+output_root = "excel_output"
+
+# ✅ Deduplication Function
+def deduplicate_columns(columns):
+    seen = {}
+    new_columns = []
+    for col in columns:
+        if col in seen:
+            seen[col] += 1
+            new_columns.append(f"{col}.{seen[col]}")
+        else:
+            seen[col] = 0
+            new_columns.append(col)
+    return new_columns
+
+for root, dirs, files in os.walk(input_root):
+    for file in files:
+        if file.endswith(".pdf"):
+            pdf_path = os.path.join(root, file)
+            relative_path = os.path.relpath(root, input_root)
+            output_folder = os.path.join(output_root, relative_path)
+
+            os.makedirs(output_folder, exist_ok=True)
+
+            print(f"Processing: {pdf_path}")
+
+            all_text = []
+
+            with pdfplumber.open(pdf_path) as pdf:
+                for page_number, page in enumerate(pdf.pages):
+                    table = page.extract_table()
+                    if table and table[0]:
+                        try:
+                            df = pd.DataFrame(table[1:], columns=deduplicate_columns(table[0]))
+                            all_text.append(df)
+                        except Exception as e:
+                            print(f"Error in {file} page {page_number + 1}: {e}")
+
+            if all_text:
+                try:
+                    combined_df = pd.concat(all_text, ignore_index=True)
+                    excel_filename = file.replace(".pdf", ".xlsx")
+                    output_path = os.path.join(output_folder, excel_filename)
+                    combined_df.to_excel(output_path, index=False)
+                    print(f"Saved to: {output_path}")
+                except Exception as e:
+                    print(f"Concat error for {file}: {e}")
+            else:
+                print(f"No tables found in {file}")
+
+print("✅ Bulk PDF to Excel with folder structure completed.")
