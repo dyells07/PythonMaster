@@ -5,7 +5,6 @@ import pandas as pd
 input_root = "inputpdf"
 output_root = "excel_output"
 
-# ✅ Deduplication Function
 def deduplicate_columns(columns):
     seen = {}
     new_columns = []
